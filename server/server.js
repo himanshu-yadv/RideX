@@ -6,20 +6,26 @@ import userRouter from "./routes/userRoutes.js";
 import ownerRouter from "./routes/ownerRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 
-// Initialize Express App
-const app = express()
+const app = express();
 
-// Connect Database
-await connectDB()
+// ✅ Connect Database
+await connectDB();
 
-// Middleware
-app.use(cors());
+// ✅ Allow requests from frontend
+app.use(cors({
+  origin: "https://ridex-orpin.vercel.app",
+  credentials: true
+}));
+
+// ✅ Middleware
 app.use(express.json());
 
-app.get('/', (req, res)=> res.send("Server is running"))
-app.use('/api/user', userRouter)
-app.use('/api/owner', ownerRouter)
-app.use('/api/bookings', bookingRouter)
+// ✅ Routes
+app.get('/', (req, res) => res.send("Server is running"));
+app.use('/api/user', userRouter);
+app.use('/api/owner', ownerRouter);
+app.use('/api/bookings', bookingRouter);
 
+// ✅ Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=> console.log(`Server running on port ${PORT}`))
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
